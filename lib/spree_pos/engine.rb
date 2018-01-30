@@ -7,7 +7,7 @@ module SpreePos
 
     initializer "spree.spree_pos.preferences", :after => "spree.environment" do |app|
       SpreePos::Config = SpreePos::Configuration.new
-      #::CARD_TYPE = ['Visa', 'MasterCard', 'Verve', 'AmericanExpress', 'China UnionPay']
+      ::CARD_TYPE = ['Visa', 'MasterCard', 'Verve', 'AmericanExpress', 'China UnionPay']
       app.config.spree.payment_methods << Spree::PaymentMethod::PointOfSale
     end
 
