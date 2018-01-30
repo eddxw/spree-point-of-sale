@@ -20,7 +20,7 @@ module SpreePos
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
       Spree::Product.class_eval do
-        delegate_belongs_to :master, :ean
+        delegate :master, :ean
       end
     end
 
