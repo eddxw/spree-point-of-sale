@@ -6,7 +6,7 @@ module SpreePos
     config.autoload_paths += %W(#{config.root}/lib)
 
     initializer "spree.spree_pos.preferences", :after => "spree.environment" do |app|
-      #SpreePos::Config = SpreePos::Configuration.new
+      SpreePos::Config = SpreePos::Configuration.new
       #::CARD_TYPE = ['Visa', 'MasterCard', 'Verve', 'AmericanExpress', 'China UnionPay']
       app.config.spree.payment_methods << Spree::PaymentMethod::PointOfSale
     end
