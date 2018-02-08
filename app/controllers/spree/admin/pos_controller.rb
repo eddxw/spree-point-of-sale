@@ -39,8 +39,8 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
 
   def update_line_item_quantity
     @item.quantity = params[:quantity]
-    @item.save
-    @variant.product.save
+    @item.save!
+    @item.update!
 
     flash[:notice] = Spree.t(:quantity_updated) if @item.errors.blank?
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
