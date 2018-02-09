@@ -72,10 +72,38 @@
         </td>
 
         <td>
-          <%= form_tag(update_line_item_quantity_admin_pos_path(@order.number)) do %>
+          <!-- <%= form_tag(update_line_item_quantity_admin_pos_path(@order.number)) do %>
             <%= hidden_field_tag(:line_item_id, item.id) %>
             <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
-          <%end%>
+          <%end%> -->
+          <%= hidden_field_tag(:line_item_id, item.id) %>
+          <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'update_line_item_quantity')%>
+          <script>
+            var adjustLineItem, lineItemURL;
+            lineItemURL = function(line_item_id) {
+              var url;
+              return url = Spree.routes.orders_api + "/" + order_number + "/line_items/" + line_item_id + ".json";
+            };
+            adjustLineItem = function() {
+              line_item_id = $("input[id=line_item_id]").val();
+              quantity = $(this).val();
+              var url;
+              url = lineItemURL(line_item_id);
+              return $.ajax({
+                type: "PUT",
+                url: Spree.url(url),
+                data: {
+                  line_item: {
+                    quantity: quantity
+                  },
+                  token: Spree.api_key
+                }
+              }).done(function(msg) {
+                return window.Spree.advanceOrder();
+              });
+            };
+            $("select[id=quantity]").change(adjustLineItem);
+          </script>
         </td>
 
         <td><%= item.variant.price %></td>
