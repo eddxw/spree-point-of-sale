@@ -77,7 +77,7 @@
             <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
           <%end%> -->
 
-          <%= hidden_field_tag(:line_item_id, item.id) %>
+          <%= hidden_field_tag("line_item_"+item.id.to_s, item.id) %>
           <%= select_tag("quantity_"+item.id.to_s, options_for_select( (1..20).to_a , item.quantity))%>
           <script>
             var adjustLineItem, lineItemURL;
@@ -87,7 +87,7 @@
               return url = Spree.routes.orders_api + "/" + order_number + "/line_items/" + line_item_id + ".json";
             };
             adjustLineItem = function() {
-              line_item_id = $("input[id=line_item_id]").val();
+              line_item_id = $("input[id=line_item_<%= item.id.to_s%>]").val();
               quantity = $(this).val();
               var url;
               url = lineItemURL(line_item_id);
