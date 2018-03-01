@@ -19,7 +19,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   def find
     init_search
     stock_location = @order.pos_shipment.stock_location
-    if param[:index]
+    if params[:index]
       @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:sku])
     else
       @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:q])
