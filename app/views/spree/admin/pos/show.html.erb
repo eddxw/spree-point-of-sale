@@ -78,7 +78,7 @@
           <%end%> -->
 
           <%= hidden_field_tag(:line_item_id, item.id) %>
-          <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity))%>
+          <%= select_tag("quantity_"+item.id, options_for_select( (1..20).to_a , item.quantity))%>
           <script>
             var adjustLineItem, lineItemURL;
             var order_number = "<%= @order.number %>";
