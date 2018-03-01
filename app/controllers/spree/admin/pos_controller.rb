@@ -20,10 +20,10 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
     init_search
     stock_location = @order.pos_shipment.stock_location
     if params[:index]
-      @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:sku])
-    else
+      params[:q].merge!(sku_cont: params[:sku], product_name_cont: params[:sku])
       @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:q])
     end
+    @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:q])
     @variants = @search.result(distinct: true).page(params[:page]).per(PRODUCTS_PER_SEARCH_PAGE)
   end
 
