@@ -72,13 +72,11 @@
         </td>
 
         <td>
-          <!-- <%= form_tag(update_line_item_quantity_admin_pos_path(@order.number)) do %>
-            <%= hidden_field_tag(:line_item_id, item.id) %>
-            <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
-          <%end%> -->
+          <form>
+            <%= hidden_field_tag("line_item_"+item.id.to_s, item.id) %>
+            <%= select_tag("quantity_"+item.id.to_s, options_for_select( (1..20).to_a , item.quantity))%>
+          </form>
 
-          <%= hidden_field_tag("line_item_"+item.id.to_s, item.id) %>
-          <%= select_tag("quantity_"+item.id.to_s, options_for_select( (1..20).to_a , item.quantity))%>
           <script>
             var adjustLineItem, lineItemURL;
             var order_number = "<%= @order.number %>";
