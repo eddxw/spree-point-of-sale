@@ -1,22 +1,22 @@
 es-MX:
   order_number: Order Number
   item_description: Item Description
-  qty: Quantity
+  qty: Cantidad
   total: Total
-  order_total: Order Total
+  order_total: Total
   spree:
     store: "Punto de venta"
     pos: POS
-    product_added: Product added
-    product_removed: Product removed
-    quantity_changed: "Quantity changed"
-    price_change: Price changed
-    order_total: 'Order Total'
-    item_description: 'Item Description'
+    product_added: Producto agregado
+    product_removed: Producto removido
+    quantity_changed: "Cantidad actualizada"
+    price_change: Cambio de precio
+    order_total: 'Total'
+    item_description: 'Descripción'
     select: Select
-    master_price: Master Price
+    master_price: Precio maestro
     no_active_store: No Active Store Associated
-    quantity_unavailable: Adding More Than Available
+    quantity_unavailable: Cantidad no disponible
     empty_inventory: Inventory Units assigned for the order. Please remove them to change stock location
     no_card_name: No card name to be saved with this payment
     quantity_updated: Quantity Updated
