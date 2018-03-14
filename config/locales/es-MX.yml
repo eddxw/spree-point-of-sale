@@ -4,7 +4,9 @@ es-MX:
   qty: Cantidad
   total: Total
   order_total: Total
+  item_total: "Sub-Total"
   spree:
+    item_total: "Sub-Total"
     store: "Punto de venta"
     pos: POS
     product_added: Producto agregado
