@@ -57,6 +57,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   end
 
   def apply_discount
+    @qwerty = "qwerty"
     @item.price = @item.variant.price * (1.0 - @discount / 100.0)
     @item.save
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
