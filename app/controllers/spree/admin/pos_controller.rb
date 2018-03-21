@@ -61,7 +61,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
     @item.price = @item.variant.price * (1.0 - @discount / 100.0)
     @item.save
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
-    redirect_to admin_pos_show_order_path(number: @order.number)
+    # redirect_to admin_pos_show_order_path(number: @order.number)
   end
 
   def clean_order
