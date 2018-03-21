@@ -7,7 +7,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   before_action :ensure_payment_method, only: :update_payment
   before_action :ensure_existing_user, only: :associate_user
   before_action :check_unpaid_pos_order, only: :new
-  before_action :check_discount_request, only: :apply_discount
+  #before_action :check_discount_request, only: :apply_discount
   before_action :load_line_item, only: [:update_line_item_quantity, :apply_discount]
   before_action :clean_and_reload_order, only: :update_stock_location
 
