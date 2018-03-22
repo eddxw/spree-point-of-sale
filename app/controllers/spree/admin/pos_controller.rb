@@ -33,7 +33,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   end
 
   def add
-      @item = add_variant(@variant) if @variant.present?
+    @item = add_variant(@variant) if @variant.present?
     flash[:notice] = Spree.t(:product_added) if @item.errors.blank?
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
     redirect_to admin_pos_show_order_path(number: @order.number)
@@ -49,7 +49,8 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   def update_line_item_quantity
     @item.quantity = params[:quantity]
     @item.save!
-    
+    @order.update_totals
+
     flash[:notice] = Spree.t(:quantity_updated) if @item.errors.blank?
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
     redirect_to admin_pos_show_order_path(number: @order.number)
@@ -58,6 +59,8 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   def apply_discount
     @item.price = @item.variant.price * (1.0 - @discount / 100.0)
     @item.save
+    @order.update_totals
+
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
     redirect_to admin_pos_show_order_path(number: @order.number)
   end
