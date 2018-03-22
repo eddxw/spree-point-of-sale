@@ -119,11 +119,11 @@
 
   </table>
 
-  <% if order.line_items.exists? %>
+  <% if @order.line_items.exists? %>
     <div class="alert alert-info" id="order-total" data-hook="order_details_total" style="text-align: right;">
       <%= Spree.t(:order_total) %>:
       <strong class="order-total">
-        <%= order.display_total %>
+        <%= @order.display_total %>
       </strong>
     </div>
   <% end %>
