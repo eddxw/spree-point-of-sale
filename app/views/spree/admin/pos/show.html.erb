@@ -58,6 +58,7 @@
       <th><%= Spree.t('item_description') %></th>
       <th><%= Spree.t('quantity') %></th>
       <th>Actual Price</th>
+      <th></th>
       <th class="discount_price"><%= Spree.t('discount') %> (%)</th>
       <th class="price"><%= Spree.t('price') %></th>
       <th><%= Spree.t('remove') %><br><%= Spree.t('add') %></th>
@@ -79,6 +80,15 @@
         </td>
 
         <td><%= item.variant.price %></td>
+
+        <td>
+          <% if item.variant.volume_prices.present? %>
+            <%= form_tag(change_price_admin_pos_path(@order.number)) do %>
+              <%= hidden_field_tag(:line_item_id, item.id) %>
+              <%= select_tag("new_price" , options_for_select( item.variant.volume_prices.map { |vp| vp.amount }, item.price), onchange: 'this.form.submit()', class: 'form-control', style: 'width: 75px;')%>
+            <%end%>
+          <% end %>
+        </td>
 
         <td><%= (((item.variant.price - item.price)/item.variant.price)*100).round(1) %></td>
 

@@ -12,6 +12,8 @@ es-MX:
     product_added: Producto agregado
     product_removed: Producto removido
     quantity_changed: "Cantidad actualizada"
+    discount_applied: "Descuento aplicado"
+    price_changed: "Precio actualizado"
     price_change: Cambio de precio
     order_total: 'Total'
     item_description: 'Descripción'
@@ -21,7 +23,7 @@ es-MX:
     quantity_unavailable: Cantidad no disponible
     empty_inventory: Inventory Units assigned for the order. Please remove them to change stock location
     no_card_name: No card name to be saved with this payment
-    quantity_updated: Quantity Updated
+    quantity_updated: "Cantidad actualizada"
     remove_items: Removed all items
     add_user_failure: "Could not add the user: %{errors}"
     add_user_success: Successfully Associated User

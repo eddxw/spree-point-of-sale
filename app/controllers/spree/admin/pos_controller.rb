@@ -8,7 +8,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   before_action :ensure_existing_user, only: :associate_user
   before_action :check_unpaid_pos_order, only: :new
   before_action :check_discount_request, only: :apply_discount
-  before_action :load_line_item, only: [:update_line_item_quantity, :apply_discount]
+  before_action :load_line_item, only: [:update_line_item_quantity, :apply_discount, :change_price]
   before_action :clean_and_reload_order, only: :update_stock_location
 
   def new
@@ -66,7 +66,16 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
     redirect_to admin_pos_show_order_path(number: @order.number)
   end
+  def change_price
+    @item.price = params[:new_price].try(:to_f)
+    @item.save!
+    @order.update_totals
+    @order.save
 
+    flash[:notice] = Spree.t(:price_changed) if @item.errors.blank?
+    flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
+    redirect_to admin_pos_show_order_path(number: @order.number)
+  end
   def clean_order
     @order.clean!
     redirect_to admin_pos_show_order_path(number: @order.number), notice: Spree.t(:remove_items)
