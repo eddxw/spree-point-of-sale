@@ -131,7 +131,7 @@
   </table>
   <%= render "spree/admin/orders/adjustments",
         adjustments: @order.line_item_adjustments,
-        order: order,
+        order: @order,
         title: Spree.t(:line_item_adjustments)
   %>
   <div class="belowtable row">
