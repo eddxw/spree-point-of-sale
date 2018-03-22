@@ -129,7 +129,11 @@
       <td colspan="6" class="total"><span id="order_total"><%= @order.display_total.to_html %></span></td>
     </tr>
   </table>
-
+  <%= render "spree/admin/orders/adjustments",
+        adjustments: @order.line_item_adjustments,
+        order: order,
+        title: Spree.t(:line_item_adjustments)
+  %>
   <div class="belowtable row">
     <%= button_to "Remove All Items", admin_pos_clean_order_path(number: @order.number) , data: { confirm: "Are you sure?" }, class: 'btn btn-default' %>
   </div>
