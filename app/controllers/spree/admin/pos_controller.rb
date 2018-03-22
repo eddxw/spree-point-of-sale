@@ -50,6 +50,7 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
     @item.quantity = params[:quantity]
     @item.save!
     @order.update_totals
+    @order.save
 
     flash[:notice] = Spree.t(:quantity_updated) if @item.errors.blank?
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
@@ -58,8 +59,9 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
 
   def apply_discount
     @item.price = @item.variant.price * (1.0 - @discount / 100.0)
-    @item.save
+    @item.save!
     @order.update_totals
+    @order.save
 
     flash[:error] = @item.errors.full_messages.to_sentence if @item.errors.present?
     redirect_to admin_pos_show_order_path(number: @order.number)
