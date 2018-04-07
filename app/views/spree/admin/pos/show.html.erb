@@ -133,7 +133,11 @@
         order: @order,
         title: Spree.t(:line_item_adjustments)
   %>
-
+  <%= render "spree/admin/orders/adjustments",
+        adjustments: @order.adjustments,
+        order: @order,
+        title: Spree.t(:order_adjustments)
+  %>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title"><%= Spree.t(:summary) %></h3>
