@@ -132,7 +132,10 @@
   <% end %>
 
 
-  <%= form_tag admin_order_adjustments_path do |f| %>
+    <% content_for :page_actions do %>
+      <%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", icon: 'add') if can? :create, Spree::Adjustment %>
+    <% end %>
+
     <fieldset>
       <div data-hook="admin_adjustment_form_fields">
         <%= f.field_container :amount, class: ['form-group'] do %>
@@ -147,7 +150,7 @@
         <% end %>
       </div>
     </fieldset>
-  <% end %>
+
 
   <%= render "spree/admin/orders/adjustments",
         adjustments: @order.line_item_adjustments,
