@@ -131,8 +131,7 @@
     / <%= Spree.t(:new_adjustment) %>
   <% end %>
 
-  <%= render partial: 'spree/admin/shared/error_messages', locals: { target: @adjustment } %>
-
+  
   <%= form_tag admin_order_adjustments_path do |f| %>
     <fieldset>
       <div data-hook="admin_adjustment_form_fields">
