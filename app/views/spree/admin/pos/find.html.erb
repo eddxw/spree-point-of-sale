@@ -67,6 +67,10 @@ No Result Found
         <%= f.text_field :sku_cont, :size => 15 %>
       </p>
       <p>
+        <%= f.label :ean_cont, Spree.t("ean") %><br />
+        <%= f.text_field :ean_cont, :size => 15 %>
+      </p>
+      <p>
         <%= f.label :prices_amount_gteq, Spree.t("price_min") %><br />
         <%= f.text_field :prices_amount_gteq, :size => 15 %>
       </p>
