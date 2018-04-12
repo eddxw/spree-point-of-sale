@@ -8,6 +8,7 @@
           <th><%= Spree.t("image") %></th>
           <th><%= sort_link @search,:product_name, Spree.t("name"), {}, {:title => 'admin_products_listing_name_title'} %></th>
           <th><%= sort_link @search,:price, Spree.t("master_price") %></th>
+          <th>Disponibles<th>
           <th><%= Spree.t("select") %></th>
       </tr>
       <% @variants.each do |variant| %>
