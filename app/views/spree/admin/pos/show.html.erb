@@ -227,13 +227,14 @@
         <%= form_tag update_stock_location_admin_pos_path(@order.number), class: 'modify_stock_location_form' do %>
           <% user_stock_locations(spree_current_user).all.each do |stock_location| %>
             <div>
-              <%= radio_button_tag :stock_location_id, stock_location.id, (stock_location.id == @order.pos_shipment.stock_location.id), id: "stock_location_#{ stock_location.id }", onchange: 'this.form.submit()', data: { confirm: "¿estás seguro?" },class: 'stock_location_checkbox' %>
+              <%= radio_button_tag :stock_location_id, stock_location.id, (stock_location.id == @order.pos_shipment.stock_location.id), id: "stock_location_#{ stock_location.id }", onchange: 'this.form.submit()', class: 'stock_location_checkbox' %>
               <label>
                 <%= stock_location.name %>
               </label>
             </div>
           <% end %>
           <br />
+          <%= submit_tag 'Actualizar', data: { confirm: "¿estás seguro?" }, class: 'btn btn-primary btn-success' %>
         <% end %>
       </fieldset>
     </div>
