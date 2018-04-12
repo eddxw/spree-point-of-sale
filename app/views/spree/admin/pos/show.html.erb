@@ -135,21 +135,6 @@
       <%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", icon: 'add') if can? :create, Spree::Adjustment %>
     <% end %>
 
-    <!-- <fieldset>
-      <div data-hook="admin_adjustment_form_fields">
-        <%= f.field_container :amount, class: ['form-group'] do %>
-          <%= f.label :amount, raw(Spree.t(:amount) + content_tag(:span, " *", class: "required")) %>
-          <%= text_field :adjustment, :amount, class: 'form-control' %>
-          <%= f.error_message_on :amount %>
-        <% end %>
-        <%= f.field_container :label, class: ['form-group'] do %>
-          <%= f.label :label, raw(Spree.t(:description) + content_tag(:span, " *", class: "required")) %>
-          <%= text_field :adjustment, :label, class: 'form-control' %>
-          <%= f.error_message_on :label %>
-        <% end %>
-      </div>
-    </fieldset> -->
-
 
   <%= render "spree/admin/orders/adjustments",
         adjustments: @order.line_item_adjustments,
