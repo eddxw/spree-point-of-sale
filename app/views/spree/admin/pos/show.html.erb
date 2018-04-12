@@ -1,11 +1,13 @@
 <div class='col-sm-12 row'>
-  <h4 class='col-sm-6'>Order No: <%= @order.number %>
+  <h4 class='col-sm-6'>Order No:
+    <%= @order.number %>
   </h4>
 
-  <h4 class='col-sm-6'>Order For: <%= @order.email %></h4>
+  <h4 class='col-sm-6'>Order For:
+    <%= @order.email %></h4>
 
   <div class='col-sm-6'>
-    <a href="/admin/pos/new" onClick="javascript:if (newwindow) newwindow.close()" class="button">
+    <a href="/admin/pos/new" onclick="javascript:if (newwindow) newwindow.close()" class="button">
       Nueva Orden
     </a>
   </div>
@@ -21,15 +23,20 @@
   <%= form_tag associate_user_admin_pos_path(number: @order.number), id: "associate_user" do %>
   <div id="pos-tabs">
     <ul>
-      <li><a href="#associate_email">Buscar Usuario por email</a></li>
-      <li><a href="#associate_new_user">Agregar nuevo usuario</a></li>
+      <li>
+        <a href="#associate_email">Buscar Usuario por email</a>
+      </li>
+      <li>
+        <a href="#associate_new_user">Agregar nuevo usuario</a>
+      </li>
     </ul>
     <div id="associate_email" class="commonfieldset">
       <div class="row">
         <div class="four columns alpha">
           <div class="field">
             <label>Email</label>
-            <%= text_field_tag :email, '', size: 25 %> <br/>
+            <%= text_field_tag :email, '', size: 25 %>
+            <br/>
           </div>
         </div>
       </div>
@@ -40,25 +47,28 @@
         <div class="four columns alpha">
           <div class="field">
             <label>Nuevo Email</label>
-            <%= text_field_tag :new_email, nil, size: 25 %> <br/>
+            <%= text_field_tag :new_email, nil, size: 25 %>
+            <br/>
           </div>
         </div>
       </div>
     </div>
     <div class="four columns alpha">
       <div class="field">
-        <%= button "Asociar Usuario" %> </div>
+        <%= button "Asociar Usuario" %>
+      </div>
     </div>
   </div>
-  <% end %>
-
+<% end %>
+<div class="table-responsive">
   <table id='pos-order-table' class="index table">
     <tr>
       <th><%= Spree.t('item_description') %></th>
       <th><%= Spree.t('quantity') %></th>
       <th>Precio</th>
       <th></th>
-      <th class="discount_price"><%= Spree.t('discount') %> (%)</th>
+      <th class="discount_price"><%= Spree.t('discount') %>
+        (%)</th>
       <th class="price"><%= Spree.t('price') %></th>
       <th><%= Spree.t('remove') %><br><%= Spree.t('add') %></th>
       <th><%= Spree.t('update_discount') %></th>
@@ -67,200 +77,187 @@
     <% @order.line_items.each do | item | %>
       <tr>
         <td width="220">
-          <%=  image_tag item.variant.product.images.first.attachment.url(:mini) if item.variant.product.images.first %><br/><%= "#{item.variant.name} #{item.variant.options_text}"%><br/>
+          <%= image_tag item.variant.product.images.first.attachment.url(:mini) if item.variant.product.images.first %><br/><%= "#{item.variant.name} #{item.variant.options_text}"%><br/>
           <%="(SKU:#{item.variant.sku})" %>
         </td>
 
         <td>
-           <%= form_tag(update_line_item_quantity_admin_pos_path(@order.number)) do %>
-             <%= hidden_field_tag(:line_item_id, item.id) %>
-             <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
-           <%end%>
-        </td>
+          <%= form_tag(update_line_item_quantity_admin_pos_path(@order.number)) do %>
+          <%= hidden_field_tag(:line_item_id, item.id) %>
+          <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
+        <%end%>
+      </td>
 
-        <td><%= item.variant.price %></td>
+      <td><%= item.variant.price %></td>
 
-        <td>
-          <% if item.variant.volume_prices.present? %>
-            <%= form_tag(change_price_admin_pos_path(@order.number)) do %>
-              <%= hidden_field_tag(:line_item_id, item.id) %>
-              <%= select_tag("new_price" , options_for_select( item.variant.volume_prices.map { |vp| vp.amount }, item.price), onchange: 'this.form.submit()', class: 'form-control', style: 'width: 75px;')%>
-            <%end%>
-          <% end %>
-        </td>
+      <td>
+        <% if item.variant.volume_prices.present? %>
+          <%= form_tag(change_price_admin_pos_path(@order.number)) do %>
+          <%= hidden_field_tag(:line_item_id, item.id) %>
+          <%= select_tag("new_price" , options_for_select( item.variant.volume_prices.map { |vp| vp.amount }, item.price), onchange: 'this.form.submit()', class: 'form-control', style: 'width: 75px;')%>
+        <%end%>
+      <% end %>
+    </td>
 
-        <td><%= (((item.variant.price - item.price)/item.variant.price)*100).round(1) %></td>
+    <td><%= (((item.variant.price - item.price)/item.variant.price)*100).round(1) %></td>
 
-        <td class="price">
-          <span><%= item.price %></span>
-        </td>
+    <td class="price">
+      <span><%= item.price %></span>
+    </td>
 
-        <td align="center">
-          <%= link_to remove_admin_pos_path(number: @order.number, item: item.variant.id) do %>
-            <span class='glyphicon glyphicon-remove'></span>
-          <% end %>
-          <%= link_to add_admin_pos_path(number: @order.number, item: item.variant.id) do %>
-            <span class='glyphicon glyphicon-plus'></span>
-          <% end %>
-        </td>
-
-        <td class='discount'>
-          <%= form_tag(apply_discount_admin_pos_path(@order.number), style: 'display: flex;') do %>
-            <%= hidden_field_tag(:line_item_id, item.id) %>
-            <%= text_field_tag("discount", nil, class: 'form-control') %>
-            <%= tag.summit class: 'submit btn btn-primary btn-success btn-sm' do %>
-              <i class="icon icon-refresh" style="vertical-align: bottom;" aria-hidden="true"></i>
-            <% end %>
-          <%end%>
-        </td>
-
-      </tr>
-
+    <td align="center">
+      <%= link_to remove_admin_pos_path(number: @order.number, item: item.variant.id) do %>
+      <span class='glyphicon glyphicon-remove'></span>
     <% end %>
-
-  </table>
-
-  <% if @order.line_items.exists? %>
-    <div class="alert alert-info" id="order-total" data-hook="order_details_total" style="text-align: right;">
-      <%= Spree.t(:order_total) %>:
-      <strong class="order-total">
-        <%= @order.display_total %>
-      </strong>
-    </div>
+    <%= link_to add_admin_pos_path(number: @order.number, item: item.variant.id) do %>
+    <span class='glyphicon glyphicon-plus'></span>
   <% end %>
+</td>
 
-  <%= render "spree/admin/orders/adjustments",
-        adjustments: @order.line_item_adjustments,
-        order: @order,
-        title: Spree.t(:line_item_adjustments)
-  %>
-  <%= render "spree/admin/orders/adjustments",
-        adjustments: @order.adjustments,
-        order: @order,
-        title: Spree.t(:order_adjustments)
-  %>
-  <div style="overflow: hidden;">
-    <%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", style: "float: right; margin-bottom: 5px;", icon: 'add') if can? :create, Spree::Adjustment %>
-  </div>
+<td class='discount'>
+  <%= form_tag(apply_discount_admin_pos_path(@order.number), style: 'display: flex;') do %>
+  <%= hidden_field_tag(:line_item_id, item.id) %>
+  <%= text_field_tag("discount", nil, class: 'form-control') %>
+  <%= tag.summit class: 'submit btn btn-primary btn-success btn-sm' do %>
+  <i class="icon icon-refresh" style="vertical-align: bottom;" aria-hidden="true"></i>
+<% end %>
+<%end%>
+</td>
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title"><%= Spree.t(:summary) %></h3>
-    </div>
+</tr>
 
-  <table class="table table-condensed table-bordered" id="order_tab_summary" data-hook>
-      <tbody class="additional-info">
-        <tr>
-          <td data-hook='admin_order_tab_subtotal_title'>
-            <strong><%= Spree.t(:subtotal) %>:</strong>
-          </td>
-          <td id='item_total'>
-            <%= @order.display_item_total.to_html %>
-          </td>
-        </tr>
+<% end %>
 
-        <% if @order.included_tax_total != 0 %>
-          <tr>
-            <td data-hook='admin_order_tab_included_tax_title'>
-              <strong><%= Spree.t(:tax_included) %>:</strong>
-            </td>
-            <td id='included_tax_total'>
-              <%= @order.display_included_tax_total.to_html %>
-            </td>
-          </tr>
-        <% end %>
+</table>
+</div>
 
-        <% if @order.additional_tax_total != 0 %>
-          <tr>
-            <td data-hook='admin_order_tab_additional_tax_title'>
-              <strong><%= Spree.t(:tax) %>:</strong>
-            </td>
-            <td id='additional_tax_total'>
-              <%= @order.display_additional_tax_total.to_html %>
-            </td>
-          </tr>
-        <% end %>
+<% if @order.line_items.exists? %>
+<div class="alert alert-info" id="order-total" data-hook="order_details_total" style="text-align: right;">
+<%= Spree.t(:order_total) %>:
+<strong class="order-total">
+<%= @order.display_total %>
+</strong>
+</div>
+<% end %>
 
-        <tr>
-          <td data-hook='admin_order_tab_total_title'>
-            <strong><%= Spree.t(:total) %>:</strong>
-          </td>
-          <td id='order_total'><%= @order.display_total.to_html %></td>
-        </tr>
+<%= render "spree/admin/orders/adjustments", adjustments: @order.line_item_adjustments, order: @order, title: Spree.t(:line_item_adjustments) %>
+<%= render "spree/admin/orders/adjustments", adjustments: @order.adjustments, order: @order, title: Spree.t(:order_adjustments) %>
+<div style="overflow: hidden;">
+<%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", style: "float: right; margin-bottom: 5px;", icon: 'add') if can? :create, Spree::Adjustment %>
+</div>
 
-        </tbody>
-    </table>
-  </div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><%= Spree.t(:summary) %></h3>
+</div>
+<div class="table-responsive">
+<table class="table table-condensed table-bordered" id="order_tab_summary" data-hook="data-hook">
+<tbody class="additional-info">
+<tr>
+<td data-hook='admin_order_tab_subtotal_title'>
+<strong><%= Spree.t(:subtotal) %>:</strong>
+</td>
+<td id='item_total'>
+<%= @order.display_item_total.to_html %>
+</td>
+</tr>
 
-  <div class="belowtable row">
-    <%= button_to "Remover todos los artículos", admin_pos_clean_order_path(number: @order.number) , data: { confirm: "¿estás seguro?" }, class: 'btn btn-default' %>
-  </div>
+<% if @order.included_tax_total != 0 %>
+<tr>
+<td data-hook='admin_order_tab_included_tax_title'>
+  <strong><%= Spree.t(:tax_included) %>:</strong>
+</td>
+<td id='included_tax_total'>
+  <%= @order.display_included_tax_total.to_html %>
+</td>
+</tr>
+<% end %>
 
-  <div class="row">
+<% if @order.additional_tax_total != 0 %>
+<tr>
+<td data-hook='admin_order_tab_additional_tax_title'>
+  <strong><%= Spree.t(:tax) %>:</strong>
+</td>
+<td id='additional_tax_total'>
+  <%= @order.display_additional_tax_total.to_html %>
+</td>
+</tr>
+<% end %>
 
-    <%= form_tag update_payment_admin_pos_path(@order.number), id: "update_payment" do %>
-      <div class="four rows alpha">
-        <h4>Metodos de Pago</h4>
-        <div class="field">
-          <p>
-            <% Spree::PaymentMethod.where("type='Spree::PaymentMethod::PointOfSale'").each do |method| %>
-              <label>
-                <%= radio_button_tag :payment_method_id, method.id, false, 'data-name': method.name %> <%= Spree.t(method.name, scope: :payment_methods, default: method.name) %>
-              </label>
-            <% end %>
-          </p>
-        </div>
+<tr>
+<td data-hook='admin_order_tab_total_title'>
+<strong><%= Spree.t(:total) %>:</strong>
+</td>
+<td id='order_total'><%= @order.display_total.to_html %></td>
+</tr>
 
-        <div id="card_name" class="rows">
-          <%= select_tag(:card_name, options_for_select(Spree::Order::CARD_TYPE, "#{@order.payments.first.try(:card_name)}"), include_blank: true, id: 'card_name_options') %>
-          <%= button_tag "Confirmar e Imprimir", class: "fr btn btn-primary btn-success", data: { confirm:"¿estás seguro?"}  %>
-        </div>
-      </div>
-    <% end %>
-  </div>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="belowtable row">
+<%= button_to "Remover todos los artículos", admin_pos_clean_order_path(number: @order.number) , data: { confirm: "¿estás seguro?" }, class: 'btn btn-default' %>
+</div>
+
+<div class="row">
+
+<%= form_tag update_payment_admin_pos_path(@order.number), id: "update_payment" do %>
+<div class="four rows alpha">
+<h4>Metodos de Pago</h4>
+<div class="field">
+<p>
+<% Spree::PaymentMethod.where("type='Spree::PaymentMethod::PointOfSale'").each do |method| %>
+<label>
+<%= radio_button_tag :payment_method_id, method.id, false, 'data-name': method.name %>
+<%= Spree.t(method.name, scope: :payment_methods, default: method.name) %>
+</label>
+<% end %>
+</p>
+</div>
+
+<div id="card_name" class="rows">
+<%= select_tag(:card_name, options_for_select(Spree::Order::CARD_TYPE, "#{@order.payments.first.try(:card_name)}"), include_blank: true, id: 'card_name_options') %>
+<%= button_tag "Confirmar e Imprimir", class: "fr btn btn-primary btn-success", data: { confirm:"¿estás seguro?"} %>
+</div>
+</div>
+<% end %>
+</div>
 </div>
 
 <div class='col-sm-3'>
-  <% if user_stock_locations(spree_current_user).size > 1 %>
+<% if user_stock_locations(spree_current_user).size > 1 %>
 
-    <div class="stock_locations">
-      <fieldset>
-        <legend class='stock-location'>Cambiar Tienda/Inventario</legend>
-        <%= form_tag update_stock_location_admin_pos_path(@order.number), class: 'modify_stock_location_form' do %>
-          <% user_stock_locations(spree_current_user).all.each do |stock_location| %>
-            <div>
-              <%= radio_button_tag :stock_location_id, stock_location.id, (stock_location.id == @order.pos_shipment.stock_location.id), id: "stock_location_#{ stock_location.id }", onchange: 'this.form.submit()', class: 'stock_location_checkbox' %>
-              <label>
-                <%= stock_location.name %>
-              </label>
-            </div>
-          <% end %>
-          <br />
-          <%= submit_tag 'Actualizar', data: { confirm: "¿estás seguro?" }, class: 'btn btn-primary btn-success' %>
-        <% end %>
-      </fieldset>
-    </div>
-
-  <% end %>
-
-  <div class="search mart-10">
-    <legend>Buscar & Agregar</legend>
-    <%= form_tag(find_admin_pos_path(@order.number), method: :get, id: "product_search") do  %>
-      <input type="hidden" value="1" name="index">
-      <div class="box">
-        <p>
-          <%= text_field_tag :sku, "", class: 'form-control' %>
-          <%= button_tag class: 'btn btn-primary mart-10', type: 'submit' do %>
-            <span class='icon icon-search'></span>
-            <%= Spree.t("search") %>
-          <% end %>
-        </p>
-      </div>
-    <% end %>
-  </div>
-
-  <a href="/admin/pos/export" target="_blank">
-    <%  image_tag("admin/pos/select.jpg" ) %>
-  </a>
-
+<div class="stock_locations">
+<fieldset>
+<legend class='stock-location'>Cambiar Tienda/Inventario</legend>
+<%= form_tag update_stock_location_admin_pos_path(@order.number), class: 'modify_stock_location_form' do %>
+<% user_stock_locations(spree_current_user).all.each do |stock_location| %>
+<div>
+<%= radio_button_tag :stock_location_id, stock_location.id, (stock_location.id == @order.pos_shipment.stock_location.id), id: "stock_location_#{ stock_location.id }", onchange: 'this.form.submit()', class: 'stock_location_checkbox' %>
+<label>
+<%= stock_location.name %>
+</label>
 </div>
+<% end %>
+<br/>
+<%= submit_tag 'Actualizar', data: { confirm: "¿estás seguro?" }, class: 'btn btn-primary btn-success' %>
+<% end %>
+</fieldset>
+</div>
+
+<% end %>
+
+<div class="search mart-10">
+<legend>Buscar & Agregar</legend>
+<%= form_tag(find_admin_pos_path(@order.number), method: :get, id: "product_search") do %>
+<input type="hidden" value="1" name="index">
+<div class="box">
+<p>
+<%= text_field_tag :sku, "", class: 'form-control' %>
+<%= button_tag class: 'btn btn-primary mart-10', type: 'submit' do %>
+<span class='icon icon-search'></span>
+<%= Spree.t("search") %>
+<% end %>
+</p>
+</div><% end %> </div> <a href="/admin/pos/export" target="_blank"><%  image_tag("admin/pos/select.jpg" ) %></a> </div>
