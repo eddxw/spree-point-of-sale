@@ -105,11 +105,11 @@
         </td>
 
         <td class='discount'>
-          <%= form_tag(apply_discount_admin_pos_path(@order.number)) do %>
+          <%= form_tag(apply_discount_admin_pos_path(@order.number), style: 'display: flex;') do %>
             <%= hidden_field_tag(:line_item_id, item.id) %>
             <%= text_field_tag("discount", nil, class: 'form-control') %>
             <%= tag.summit class: 'submit btn btn-primary btn-success btn-sm' do %>
-              <i class="fa fa-refresh" aria-hidden="true"></i>
+              <i class="icon icon-refresh" style="vertical-align: bottom;" aria-hidden="true"></i>
             <% end %>
           <%end%>
         </td>
