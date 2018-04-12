@@ -24,7 +24,7 @@
           <td> <%= link_to( "#{variant.name} #{variant.options_text}" , edit_admin_product_url(variant.product)) %>
           <br> <%== variant.description[0 .. 200] if variant.description%></td>
           <td><%= variant.price %></td>
-          <td>(<%= "#{variant.stock_items.find_by(stock_location_id: @order.pos_shipment.stock_location.id).count_on_hand} (#{variant.total_on_hand})" %></td>
+          <td> <%= "#{variant.stock_items.find_by(stock_location_id: @order.pos_shipment.stock_location.id).count_on_hand} (#{variant.total_on_hand})" %></td>
           <td class="actions">
               <%= link_to add_admin_pos_path(number: @order.number, item: variant.id) do %>
                 <span class='glyphicon glyphicon-plus'></span>
@@ -43,7 +43,7 @@ No Result Found
 <% end %>
 <% content_for :sidebar do %>
   <div>
-    <%= button_to "Back To Order", admin_pos_show_order_path(:number => @order.number), method: :get %>
+    <%= button_to "Regresar", admin_pos_show_order_path(:number => @order.number), method: :get %>
   </div>
   <%= search_form_for   @search , :url => "/admin/pos/find/#{@order.number}/" do |f| %>
     <div class="box">

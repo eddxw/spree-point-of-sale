@@ -5,6 +5,7 @@ es-MX:
   total: Total
   order_total: Total
   item_total: "Sub-Total"
+  discount: "Descuento"
   spree:
     item_total: "Sub-Total"
     store: "Punto de venta"

@@ -108,7 +108,9 @@
           <%= form_tag(apply_discount_admin_pos_path(@order.number)) do %>
             <%= hidden_field_tag(:line_item_id, item.id) %>
             <%= text_field_tag("discount", nil, class: 'form-control') %>
-            <%= submit_tag 'update', class: 'submit btn btn-primary btn-success' %>
+            <%= tag.summit class: 'submit btn btn-primary btn-success btn-sm' do %>
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+            <% end %>
           <%end%>
         </td>
 
