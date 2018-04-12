@@ -6,12 +6,12 @@
 
   <div class='col-sm-6'>
     <a href="/admin/pos/new" onClick="javascript:if (newwindow) newwindow.close()" class="button">
-      Create New Order
+      Nueva Orden
     </a>
   </div>
   <div class='col-sm-6'>
     <a href="javascript:void(0);" id="associate_user_toggle" class="button">
-      Change User
+      Cambiar Usuario
     </a>
   </div>
 </div>
@@ -21,8 +21,8 @@
   <%= form_tag associate_user_admin_pos_path(number: @order.number), id: "associate_user" do %>
   <div id="pos-tabs">
     <ul>
-      <li><a href="#associate_email">Search User by email</a></li>
-      <li><a href="#associate_new_user">Add a new user</a></li>
+      <li><a href="#associate_email">Buscar Usuario por email</a></li>
+      <li><a href="#associate_new_user">Agregar nuevo usuario</a></li>
     </ul>
     <div id="associate_email" class="commonfieldset">
       <div class="row">
@@ -39,7 +39,7 @@
       <div class="row">
         <div class="four columns alpha">
           <div class="field">
-            <label>New Email</label>
+            <label>Nuevo Email</label>
             <%= text_field_tag :new_email, nil, size: 25 %> <br/>
           </div>
         </div>
@@ -47,17 +47,16 @@
     </div>
     <div class="four columns alpha">
       <div class="field">
-        <%= button "Associate User" %> </div>
+        <%= button "Asociar Usuario" %> </div>
     </div>
   </div>
   <% end %>
 
   <table id='pos-order-table' class="index table">
-
     <tr>
       <th><%= Spree.t('item_description') %></th>
       <th><%= Spree.t('quantity') %></th>
-      <th>Actual Price</th>
+      <th>Precio</th>
       <th></th>
       <th class="discount_price"><%= Spree.t('discount') %> (%)</th>
       <th class="price"><%= Spree.t('price') %></th>
@@ -136,7 +135,7 @@
       <%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", icon: 'add') if can? :create, Spree::Adjustment %>
     <% end %>
 
-    <fieldset>
+    <!-- <fieldset>
       <div data-hook="admin_adjustment_form_fields">
         <%= f.field_container :amount, class: ['form-group'] do %>
           <%= f.label :amount, raw(Spree.t(:amount) + content_tag(:span, " *", class: "required")) %>
@@ -149,7 +148,7 @@
           <%= f.error_message_on :label %>
         <% end %>
       </div>
-    </fieldset>
+    </fieldset> -->
 
 
   <%= render "spree/admin/orders/adjustments",
