@@ -126,15 +126,6 @@
       </strong>
     </div>
   <% end %>
-  <% content_for :page_title do %>
-    / <%= Spree.t(:new_adjustment) %>
-  <% end %>
-
-
-    <% content_for :page_actions do %>
-      <%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", icon: 'add') if can? :create, Spree::Adjustment %>
-    <% end %>
-
 
   <%= render "spree/admin/orders/adjustments",
         adjustments: @order.line_item_adjustments,
@@ -146,6 +137,8 @@
         order: @order,
         title: Spree.t(:order_adjustments)
   %>
+  <%= button_link_to(Spree.t(:new_adjustment), new_admin_order_adjustment_url(@order), class: "btn-success", icon: 'add') if can? :create, Spree::Adjustment %>
+
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title"><%= Spree.t(:summary) %></h3>
@@ -196,14 +189,14 @@
   </div>
 
   <div class="belowtable row">
-    <%= button_to "Remove All Items", admin_pos_clean_order_path(number: @order.number) , data: { confirm: "Are you sure?" }, class: 'btn btn-default' %>
+    <%= button_to "Remover todos los artículos", admin_pos_clean_order_path(number: @order.number) , data: { confirm: "¿estás seguro?" }, class: 'btn btn-default' %>
   </div>
 
   <div class="row">
 
     <%= form_tag update_payment_admin_pos_path(@order.number), id: "update_payment" do %>
       <div class="four rows alpha">
-        <h4>Payment Methods</h4>
+        <h4>Metodos de Pago</h4>
         <div class="field">
           <p>
             <% Spree::PaymentMethod.where("type='Spree::PaymentMethod::PointOfSale'").each do |method| %>
@@ -216,7 +209,7 @@
 
         <div id="card_name" class="rows">
           <%= select_tag(:card_name, options_for_select(Spree::Order::CARD_TYPE, "#{@order.payments.first.try(:card_name)}"), include_blank: true, id: 'card_name_options') %>
-          <%= button_tag "Confirm And Print", class: "fr btn btn-primary btn-success", data: { confirm:"Are you sure you want to confirm this order?"}  %>
+          <%= button_tag "Confirmar e Imprimir", class: "fr btn btn-primary btn-success", data: { confirm:"¿estás seguro?"}  %>
         </div>
       </div>
     <% end %>
@@ -228,7 +221,7 @@
 
     <div class="stock_locations">
       <fieldset>
-        <legend class='stock-location'>Change Stock Location</legend>
+        <legend class='stock-location'>Cambiar Tienda/Inventario</legend>
         <%= form_tag update_stock_location_admin_pos_path(@order.number), class: 'modify_stock_location_form' do %>
           <% user_stock_locations(spree_current_user).all.each do |stock_location| %>
             <div>
@@ -239,7 +232,7 @@
             </div>
           <% end %>
           <br />
-          <%= submit_tag 'Update', confirm: 'The Order will be cleaned. Are you sure?', class: 'btn btn-primary btn-success' %>
+          <%= submit_tag 'Actualizar', data: { confirm: "¿estás seguro?" }, class: 'btn btn-primary btn-success' %>
         <% end %>
       </fieldset>
     </div>
@@ -247,7 +240,7 @@
   <% end %>
 
   <div class="search mart-10">
-    <legend>Search & Add Product </legend>
+    <legend>Buscar & Agregar</legend>
     <%= form_tag(find_admin_pos_path(@order.number), method: :get, id: "product_search") do  %>
       <input type="hidden" value="1" name="index">
       <div class="box">
