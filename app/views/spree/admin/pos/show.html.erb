@@ -200,24 +200,31 @@
 <div class="row">
 
 <%= form_tag update_payment_admin_pos_path(@order.number), id: "update_payment" do %>
-<div class="four rows alpha">
-<h4>Metodos de Pago</h4>
-<div class="field">
-<p>
-<% Spree::PaymentMethod.where("type='Spree::PaymentMethod::PointOfSale'").each do |method| %>
-<label>
-<%= radio_button_tag :payment_method_id, method.id, false, 'data-name': method.name %>
-<%= Spree.t(method.name, scope: :payment_methods, default: method.name) %>
-</label>
-<% end %>
-</p>
-</div>
+  <div class="four rows alpha">
+    <h4>Metodos de Pago</h4>
+    <div class="field">
+      <p>
+      <% Spree::PaymentMethod.where("type='Spree::PaymentMethod::PointOfSale'").each do |method| %>
+        <label>
+        <%= radio_button_tag :payment_method_id, method.id, false, 'data-name': method.name %>
+        <%= Spree.t(method.name, scope: :payment_methods, default: method.name) %>
+        </label>
+      <% end %>
+      </p>
+    </div>
 
-<div id="card_name" class="rows">
-<%= select_tag(:card_name, options_for_select(Spree::Order::CARD_TYPE, "#{@order.payments.first.try(:card_name)}"), include_blank: true, id: 'card_name_options') %>
-<%= button_tag "Confirmar e Imprimir", class: "fr btn btn-primary btn-success", data: { confirm:"¿estás seguro?"} %>
-</div>
-</div>
+    <div id="card_name" class="rows">
+      <%= select_tag(:card_name, options_for_select(Spree::Order::CARD_TYPE, "#{@order.payments.first.try(:card_name)}"), include_blank: true, id: 'card_name_options') %>
+      <%= button_tag "Confirmar", class: "fr btn btn-primary btn-success", data: { confirm:"¿estás seguro?"} %>
+    </div>
+
+    <% if @url %>
+      <%= link_to @url, :target => "_blank" do %>
+        <span class='glyphicon glyphicon-print'></span>
+        <%= Spree.t("receipt.print") %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>
 </div>
 </div>
