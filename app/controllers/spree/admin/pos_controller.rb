@@ -25,6 +25,12 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
       @variants = @search.result(distinct: true).page(params[:page]).per(PRODUCTS_PER_SEARCH_PAGE)
       if @variants.count == 1
         redirect_to add_admin_pos_path(number: @order.number, item: @variants.first.id) and return
+      else
+        if @variants.empty?
+          params[:q].merge!(name_cont: params[:sku]).extract!(:ean_or_sku_cont)
+          @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:q])
+          @variants = @search.result(distinct: true).page(params[:page]).per(PRODUCTS_PER_SEARCH_PAGE)
+        end
       end
     else
       @search = Spree::Variant.includes([:product]).available_at_stock_location(stock_location.id).ransack(params[:q])

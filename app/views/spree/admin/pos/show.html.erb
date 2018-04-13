@@ -65,6 +65,7 @@
     <tr>
       <th><%= Spree.t('item_description') %></th>
       <th><%= Spree.t('quantity') %></th>
+      <th></th>
       <th>Precio</th>
       <th></th>
       <th class="discount_price"><%= Spree.t('discount') %>
@@ -81,11 +82,14 @@
           <%="(SKU:#{item.variant.sku})" %>
         </td>
         <td>
+          <% coh = variant.stock_items.find_by(stock_location_id: @order.pos_shipment.stock_location.id).count_on_hand %>
           <%= form_tag(update_line_item_quantity_admin_pos_path(@order.number)) do %>
             <%= hidden_field_tag(:line_item_id, item.id) %>
-            <%= select_tag("quantity" , options_for_select( (1..20).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
+            <%= select_tag("quantity" , options_for_select( (1..coh).to_a , item.quantity), onchange: 'this.form.submit()', class: 'form-control')%>
           <%end%>
         </td>
+        <td> <%= "#{coh} (#{variant.total_on_hand})" %></td>
+
         <td><%= item.variant.price %></td>
         <td>
           <% if item.variant.volume_prices.present? %>
