@@ -24,7 +24,8 @@
           <td> <%= link_to( "#{variant.name} #{variant.options_text}" , edit_admin_product_url(variant.product)) %>
           <br> <%== variant.description[0 .. 200] if variant.description%></td>
           <td><%= variant.price %></td>
-          <td> <%= "#{variant.stock_items.find_by(stock_location_id: @order.pos_shipment.stock_location.id).count_on_hand} (#{variant.total_on_hand})" %></td>
+          <% coh = variant.stock_items.find_by(stock_location_id: @order.pos_shipment.stock_location.id).count_on_hand %>
+          <td> <%= "#{coh} (#{variant.total_on_hand-coh})" %></td>
           <td class="actions">
               <%= link_to add_admin_pos_path(number: @order.number, item: variant.id) do %>
                 <span class='glyphicon glyphicon-plus'></span>
