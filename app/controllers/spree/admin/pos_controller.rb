@@ -228,6 +228,6 @@ class Spree::Admin::PosController < Spree::Admin::BaseController
   def print
     @order.complete_via_pos
     @url = SpreePos::Config[:pos_printing].sub("number" , @order.number.to_s)
-    redirect_to admin_pos_show_order_path(number: @order.number)
+    # redirect_to admin_pos_show_order_path(number: @order.number)
   end
 end
