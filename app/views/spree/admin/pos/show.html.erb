@@ -93,8 +93,9 @@
         <td><%= item.variant.price %></td>
         <td>
           <% if item.variant.volume_prices.present? %>
-            <% precios = item.variant.volume_prices.map { |vp| vp.amount }.sort.reverse! %>
-            <% precios.push(precios.last-precios.last*0.16) %>
+            <% precios1 = item.variant.volume_prices.map { |vp| vp.amount }.sort.reverse! %>
+            <% precios2 = precios.map { |ip| [(ip-ip*0.16).to_s+' sin-IVA', (ip-ip*0.16)] } %>
+            <% precios = precios1+precios2 %>
             <%= form_tag(change_price_admin_pos_path(@order.number)) do %>
                 <%= hidden_field_tag(:line_item_id, item.id) %>
                 <%= select_tag("new_price" , options_for_select( precios, precios.first), onchange: 'this.form.submit()', class: 'form-control', style: 'width: 75px;')%>
@@ -102,7 +103,7 @@
           <% else %>
             <%= form_tag(change_price_admin_pos_path(@order.number)) do %>
               <%= hidden_field_tag(:line_item_id, item.id) %>
-              <%= select_tag("new_price" , options_for_select([item.price, (item.price-item.price*0.16)] , item.price), onchange: 'this.form.submit()', class: 'form-control', style: 'width: 75px;')%>
+              <%= select_tag("new_price" , options_for_select([item.price, [(item.price-item.price*0.16).to_s+' sin-IVA',(item.price-item.price*0.16)]] , item.price), onchange: 'this.form.submit()', class: 'form-control', style: 'width: 75px;')%>
             <%end%>
           <% end %>
         </td>
